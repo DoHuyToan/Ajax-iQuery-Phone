@@ -8,26 +8,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.persistence.Table;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/smartphones")
-@Table(name = "smartphone")
 public class SmartPhoneController {
 
     @Autowired
     private ISmartphoneService smartphoneService;
 
     @GetMapping
+//    •	ResponseEntity đại diện cho toàn bộ phản hồi HTTP
     private ResponseEntity<Iterable<Smartphone>> allPhones(){
         return new ResponseEntity<>(smartphoneService.findAll(), HttpStatus.OK);
-    }
-
-    @PostMapping
-//    @RequestBody: liên kết phần thân <body> yêu cầu HTTP đến với tham số
-    public ResponseEntity<Smartphone> createSmartphone(@RequestBody Smartphone smartphone){
-        return new ResponseEntity<>(smartphoneService.save(smartphone), HttpStatus.CREATED);
     }
 
     @GetMapping("/list")
@@ -37,6 +30,16 @@ public class SmartPhoneController {
         return modelAndView;
     }
 
+//  Tạo API thực hiện sự kiện thêm mới trong SmartphoneController
+    @PostMapping
+//    @RequestBody: liên kết phần thân <body> yêu cầu HTTP đến với tham số
+//    @RequestBody Smartphone smartphone thực hiện gán dữ liệu từ json nhận được
+//    vào các trường tương ứng của smartphone
+    public ResponseEntity<Smartphone> createSmartphone(@RequestBody Smartphone smartphone){
+        return new ResponseEntity<>(smartphoneService.save(smartphone), HttpStatus.CREATED);
+    }
+
+//  Tạo API thực hiện sự kiện xoá trong SmartphoneController
     @DeleteMapping("/{id}")
     public ResponseEntity<Smartphone> deleteSmartphone(@PathVariable Long id){
 //        Optional chỉ trả về có hoặc ko, nên phải get() để lấy đối tượng ra

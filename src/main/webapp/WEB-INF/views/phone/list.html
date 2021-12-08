@@ -8,10 +8,11 @@
 // tạo một function mới có tên là addNewSmartPhone() và truyền function successHandler vào
 // thuộc tính success để thực hiện việc tạo mới một đối tượng Smartphone:-->
         function addNewSmartPhone() {
-            //lay du lieu
+            // thực hiện lấy dữ liệu từ các input tương ứng
             let producer = $('#producer').val();
             let model = $('#model').val();
             let price = $('#price').val();
+            // gán các biến vào các trường tương ứng của đối tượng json (newSmartphone).
             let newSmartphone = {
                 producer: producer,
                 model: model,
@@ -25,17 +26,20 @@
                 },
                 type: "POST",
  // stringify chuyển newSmartphone thành dạng Json, newSmartphone đc lưu ở body của request
+ //               newSmartphone là kết quả sau khi gọi đến request "/smartphones" với method POST
                 data: JSON.stringify(newSmartphone),
-                //tên API
+                // tên API
+                // thực hiện truyền json theo đường dẫn "/smartphones "
                 url: "/smartphones",
                 //xử lý khi thành công
                 success: successHandler
 
             });
-            //chặn sự kiện mặc định của thẻ, vd: bấm thẻ a sẽ ko chuyển trang
+            //chặn sự kiện mặc định của thẻ, vd: bấm thẻ <a href: ...> sẽ ko chuyển trang
             event.preventDefault();
         }
         //  successHandler(), function này sẽ gọi đến function getSmartphone() và được sử dụng để gọi API
+        //  (API: phương thức trung gian kết nối các ứng dụng và thư viện khác nhau)
         //  lấy ra danh sách smartphone và  làm mới lại danh sách sau khi thêm mới thành công:
         function successHandler() {
             $.ajax({
